@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -155,9 +156,39 @@ public class Chessboard extends JComponent {
                     break;
                 }
             }
-        }
+            }
             record.add(stringChessboard());
+            if(record.size()>=10){
+                if (Objects.equals(record.get(record.size() - 1), record.get(record.size() - 5)) && Objects.equals(record.get(record.size() - 1), record.get(record.size() - 9))){
+                    if (Objects.equals(record.get(record.size() - 2), record.get(record.size() - 6)) && Objects.equals(record.get(record.size() - 2), record.get(record.size() - 10))){
+                        chessGameFrame.addDialog("三次重复和棋");
+                    }
+                }
+            }
         }
+//        boolean tmp =false;
+//        for (int i =0;i<8;i++){
+//            for (int j =0;j<8;j++){
+//                if (chessComponents[i][j].getChessColor()==ChessColor.WHITE && chessComponents[i][j].canMoveToPoints(chessComponents)!=null){
+//                    tmp = true;
+//                    break;
+//                }
+//            }
+//        }
+//        if (!tmp){
+//            chessGameFrame.addDialog("无子可动和棋");
+//        }
+//        for (int i =0;i<8;i++){
+//            for (int j =0;j<8;j++){
+//                if (chessComponents[i][j].getChessColor()==ChessColor.BLACK && chessComponents[i][j].canMoveToPoints(chessComponents)!=null){
+//                    tmp = true;
+//                    break;
+//                }
+//            }
+//        }
+//        if (!tmp){
+//            chessGameFrame.addDialog("无子可动和棋");
+//        }
         repaint();
     }
 
