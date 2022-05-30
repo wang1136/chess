@@ -18,10 +18,10 @@ public class QueenChessComponent extends ChessComponent{
 
     public void loadResource() throws IOException {
         if (Queen_WHITE == null) {
-            Queen_WHITE = ImageIO.read(new File("./images/Queen-white.png"));
+            Queen_WHITE = ImageIO.read(new File("./chess/images/Queen-white.png"));
         }
         if (Queen_BLACK == null) {
-            Queen_BLACK = ImageIO.read(new File("./images/Queen-black.png"));
+            Queen_BLACK = ImageIO.read(new File("./chess/images/Queen-black.png"));
         }
     }
     private void initiateBishopImage(ChessColor color) {

@@ -18,10 +18,10 @@ public class KingChessComponent extends ChessComponent{
 
     public void loadResource() throws IOException {
         if (King_WHITE == null) {
-            King_WHITE = ImageIO.read(new File("./images/king-white.png"));
+            King_WHITE = ImageIO.read(new File("./chess/images/king-white.png"));
         }
         if (King_BLACK == null) {
-            King_BLACK = ImageIO.read(new File("./images/king-black.png"));
+            King_BLACK = ImageIO.read(new File("./chess/images/king-black.png"));
         }
     }
     private void initiateBishopImage(ChessColor color) {
@@ -120,7 +120,12 @@ public class KingChessComponent extends ChessComponent{
                 g.setColor(new Color(84, 255, 159, 200));
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
             }
+            if(isAttack()){
+                g.setColor(new Color(255,0,0, 200));
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+            }
         }
+
 
 
     }

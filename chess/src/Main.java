@@ -1,34 +1,55 @@
+import view.BackgroundPanel;
 import view.ChessGameFrame;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class Main {
     int midTime = 60;
     public static void main(String[] args) {
-        String path = ".\\musics\\背景音乐.wav";
-        new Thread(()->{while(true) {playMusic(path);}
-        }).start();// Lambda表达式
-//		new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				while (true) {
-//					playMusic();
-//				}
-//			}
-//		}).start();// 开启一个线程用来播放音乐
+        String path = ".\\chess\\musics\\背景音乐.wav";
+        JFrame enter = new JFrame();
+        enter.setSize(1500,800);
+        enter.setResizable(false);
+        enter.setLocationRelativeTo(null); // Center the window.
+        enter.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        enter.setLayout(null);
+        enter.setTitle("chess");
+        enter.setVisible(true);
+        ImageIcon ig = new ImageIcon("./chess/images/图标.png");
+        enter.setIconImage(ig.getImage());
+
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setSize(1500,800);
+        layeredPane.setVisible(true);
+        enter.setLayeredPane(layeredPane);
 
 
+        JPanel background = new BackgroundPanel();
+        background.setBounds(0,0,1500,800);
+        background.setOpaque(true);
 
-        SwingUtilities.invokeLater(() -> {
+        JButton button = new JButton("Start game");
+        button.addActionListener(e -> {
+            enter.setVisible(false);
+            SwingUtilities.invokeLater(() -> {
+            new Thread(()->{while(true) {playMusic(path);}
+            }).start();
             ChessGameFrame mainFrame = new ChessGameFrame(1000, 760);
             mainFrame.setVisible(true);
         });
+
+        });
+        button.setLocation(650, 650);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+//        enter.add(button,JLayeredPane.MODAL_LAYER);
+        layeredPane.add(background, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(button,JLayeredPane.MODAL_LAYER);
     }
     static void playMusic(String path) {// 背景音乐播放
-
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(new File(path));
             AudioFormat aif = ais.getFormat();
@@ -43,7 +64,6 @@ public class Main {
             float dB = (float) (Math.log(value == 0.0 ? 0.0001 : value) / Math.log(10.0) * 20.0);
             fc.setValue(dB);
             int nByte = 0;
-            int writeByte = 0;
             final int SIZE = 1024 * 64;
             byte[] buffer = new byte[SIZE];
             while (nByte != -1) {// 判断 播放/暂停 状态
@@ -68,17 +88,6 @@ public class Main {
         }
     }
     static boolean flag = true;
-    private  void playTimer() {
-        while (midTime>0) {
-            midTime--;
-            try {
-                Thread.sleep(1000);
-            }
-            catch(InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
 
 }

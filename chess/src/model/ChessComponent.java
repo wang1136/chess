@@ -3,10 +3,13 @@ package model;
 import view.ChessboardPoint;
 import controller.ClickController;
 
+import javax.sound.midi.Soundbank;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +47,7 @@ public abstract class ChessComponent extends JComponent {
     private boolean selected;
     private boolean light;
     private boolean pass ;
+    private boolean attack;
 
     public boolean isLight() {
         return light;
@@ -59,6 +63,15 @@ public abstract class ChessComponent extends JComponent {
 
     public void setPass(boolean pass){
         this.pass = pass ;
+    }
+    public boolean isAttack(){
+        return attack;
+    }
+    public void setAttack(boolean attack){
+        this.attack = attack ;
+    }
+    public boolean getAttack(){
+        return attack;
     }
 
     protected ChessComponent[][] chessComponents;
@@ -136,6 +149,7 @@ public abstract class ChessComponent extends JComponent {
         }
     }
 
+
     /**
      * @param chessboard  棋盘
      * @param destination 目标位置，如(0, 0), (0, 7)等等
@@ -167,6 +181,10 @@ public abstract class ChessComponent extends JComponent {
         }
         if(isPass()){
             g.setColor(new Color(84, 255, 159));
+            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        }
+        if(isAttack()){
+            g.setColor(new Color(84, 255, 159, 200));
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
         }
     }

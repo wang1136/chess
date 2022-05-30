@@ -1,22 +1,8 @@
 package view;
 
 import controller.GameController;
-import model.ChessComponent;
-
-import java.awt.AlphaComposite;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -27,13 +13,12 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGHT;
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
-    public JLabel statusLabel = new JLabel("Current player is WHITE");
+    public JLabel statusLabel = new JLabel("The current player is WHITE");
     public JLabel time = new JLabel("Time: 60");
     public ChessPanel background = new ChessPanel();
     JLayeredPane layeredPane;
     Chessboard chessboard;
     public ChessGameFrame(int width, int height) {
-
         layeredPane = new JLayeredPane();
         setTitle("chess"); //设置标题
         this.WIDTH = 1200;
@@ -46,7 +31,7 @@ public class ChessGameFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
 
-        ImageIcon ig = new ImageIcon("./images/图标.png");
+        ImageIcon ig = new ImageIcon("./chess/images/图标.png");
         setIconImage(ig.getImage());
 
         setLayeredPane(layeredPane);
@@ -65,9 +50,9 @@ public class ChessGameFrame extends JFrame {
         addLoadButton();
         addSaveButton();
         addRetractButton();
-        addReviewButton();
-        addChangeStyle();
-        addTime();
+//        addReviewButton();
+//        addChangeStyle();
+//        addTime();
     }
 
 
@@ -91,10 +76,11 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        statusLabel.setLocation(HEIGHT-10, HEIGHT / 10);
-        statusLabel.setSize(300, 60);
-        statusLabel.setForeground(Color.RED);
-        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        statusLabel.setLocation(HEIGHT-50, HEIGHT / 10+20);
+        statusLabel.setSize(500, 100);
+        Color tmp = new Color(255, 215, 0);
+        statusLabel.setForeground(tmp);
+        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 30));
         layeredPane.add(statusLabel,JLayeredPane.MODAL_LAYER);
     }
 
@@ -108,7 +94,7 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
            gameController.getChessboard().resetGame();
         });
-        button.setLocation(HEIGHT, HEIGHT / 10 + 80);
+        button.setLocation(HEIGHT, HEIGHT / 10 + 200);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         layeredPane.add(button,JLayeredPane.MODAL_LAYER);
@@ -123,30 +109,30 @@ public class ChessGameFrame extends JFrame {
                gameController.getChessboard().swapColor();
            }
         });
-        button.setLocation(HEIGHT, HEIGHT / 10 + 160);
+        button.setLocation(HEIGHT, HEIGHT / 10 + 300);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         layeredPane.add(button,JLayeredPane.MODAL_LAYER);
 
     }
-    private void addReviewButton() {
-        JButton button = new JButton("Review game");
-        button.addActionListener(e -> {
-            try {
-                gameController.getChessboard().review();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        });
-        button.setLocation(HEIGHT, HEIGHT / 10 + 480);
-        button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        layeredPane.add(button,JLayeredPane.MODAL_LAYER);
-
-    }
+//    private void addReviewButton() {
+//        JButton button = new JButton("Review game");
+//        button.addActionListener(e -> {
+//            try {
+//                gameController.getChessboard().review();
+//            } catch (InterruptedException ex) {
+//                ex.printStackTrace();
+//            }
+//        });
+//        button.setLocation(HEIGHT, HEIGHT / 10 + 300);
+//        button.setSize(200, 60);
+//        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+//        layeredPane.add(button,JLayeredPane.MODAL_LAYER);
+//
+//    }
     private void addLoadButton() {
         JButton button = new JButton("Load");
-        button.setLocation(HEIGHT, HEIGHT / 10 + 240);
+        button.setLocation(HEIGHT, HEIGHT / 10 + 400);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         layeredPane.add(button,JLayeredPane.MODAL_LAYER);
@@ -168,7 +154,7 @@ public class ChessGameFrame extends JFrame {
             String f = fd.getSelectedFile().getAbsolutePath();
             gameController.writeStringToTxt(f, gameController.getChessboard().stringListChessboard());
         });
-        button.setLocation(HEIGHT, HEIGHT / 10 + 320);
+        button.setLocation(HEIGHT, HEIGHT / 10 + 500);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         layeredPane.add(button,JLayeredPane.MODAL_LAYER);
@@ -178,7 +164,7 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener((e -> {
             gameController.getChessboard().changeBackgroundColor();
         }));
-        button.setLocation(HEIGHT, HEIGHT / 10 + 400);
+        button.setLocation(HEIGHT, HEIGHT / 10 + 500);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         layeredPane.add(button,JLayeredPane.MODAL_LAYER);

@@ -83,10 +83,30 @@ public class Chessboard extends JComponent {
             initRookOnBoard(7,3,ChessColor.WHITE);
             initEmptySlotOnBoard(7,0,ChessColor.NONE);
         }
-        if (chessComponents[7][6].getType() == 'k' && chessComponents[7][7].getType() == 'r'){
-            initRookOnBoard(7,5,ChessColor.WHITE);
-            initEmptySlotOnBoard(7,7,ChessColor.NONE);
+        if (chessComponents[7][6].getType() == 'k' && chessComponents[7][7].getType() == 'r') {
+            initRookOnBoard(7, 5, ChessColor.WHITE);
+            initEmptySlotOnBoard(7, 7, ChessColor.NONE);
         }
+        for (int i =0;i<8;i++){
+            for (int j =0;j<8;j++){
+                chessComponents[i][j].setAttack(false);
+            }
+        }
+        for (int m=0;m<8;m++){
+            for (int n=0;n<8;n++) {
+                if (chessComponents[m][n].canMoveToPoints(chessComponents)!=null){
+                    for (int i = 0; i < chessComponents[m][n].canMoveToPoints(chessComponents).size(); i++) {
+                        ChessboardPoint chessboardPoint = chessComponents[m][n].canMoveToPoints(chessComponents).get(i);
+                        if (chessComponents[chessboardPoint.getX()][chessboardPoint.getY()].getType() == 'K' ||
+                            chessComponents[chessboardPoint.getX()][chessboardPoint.getY()].getType() == 'k') {
+                            chessComponents[chessboardPoint.getX()][chessboardPoint.getY()].setAttack(true);
+                            chessComponents[chessboardPoint.getX()][chessboardPoint.getY()].repaint();
+                        }
+                    }
+                }
+            }
+        }
+
         if(checkBlackKing() && checkWhiteKing()){
             for (int i =0;i<8;i++){
             if (chessComponents[0][i].getType()=='p') {
@@ -298,6 +318,8 @@ public class Chessboard extends JComponent {
                     return false;
                 } else {
                     if(chessData.get(8).length()!=1){
+                        System.out.println("缺少下一步行棋方");
+                        chessGameFrame.addDialog("缺少下一步行棋方");
                         return false;
                     }
                 }
@@ -311,6 +333,16 @@ public class Chessboard extends JComponent {
                     counterBlack=0;
                     BlackBisNum=0;
                     for (int m =0;m<64;m++){
+                        if(m<8 && chessData.get(k).charAt(m)=='P'){
+                            System.out.println("储存的步骤非法");
+                            chessGameFrame.addDialog("储存的步骤非法");
+                            return false;
+                        }
+                        if(m>58 && chessData.get(k).charAt(m)=='p'){
+                            System.out.println("储存的步骤非法");
+                            chessGameFrame.addDialog("储存的步骤非法");
+                            return false;
+                        }
                         if (chessData.get(k).charAt(m)=='B'){
                             BlackBisNum+=1;
                             if((m/8)%2==0){
@@ -445,7 +477,7 @@ public class Chessboard extends JComponent {
         return tmp.toString();
     }
     
-    public void loadPlus (String a){
+    public void loadFromString (String a){
         for (int i=0;i<8;i++){
             for (int j=0;j<8;j++){
                 char c = a.charAt(8 * i + j);
@@ -498,37 +530,34 @@ public class Chessboard extends JComponent {
 
     public void setChessComponents(String chessComponents){
         initiateEmptyChessboard();
-        loadPlus(chessComponents);
+        loadFromString(chessComponents);
         repaint();
     }
 
-    public void review() throws InterruptedException {
-        for (int i=0; i<record.size();i++){
-            String tmp =this.getRecord().get(i);
-            loadPlus(tmp);
-            this.repaint();
-            if (i!=0){
-                try {
-                    System.out.println("start");
-                    Thread.sleep(1000);
-                    System.out.println("end");
-                }
-                catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    }
+//    public void review() throws InterruptedException {
+//        for (int i=0; i<record.size();i++){
+//            String tmp =this.getRecord().get(i);
+//            loadFromString(tmp);
+//            this.repaint();
+//            if (i!=0){
+//                try {
+//                    System.out.println("start");
+//                    Thread.sleep(1000);
+//                    System.out.println("end");
+//                }
+//                catch (InterruptedException e){
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }
+//    }
 
 
     public ArrayList<String> getRecord(){
         return record;
     }
-    public void setRecord(ArrayList<String> record){
-        this.record = record;
 
-    }
     public ChessComponent[][] getChessComponents(){
         return chessComponents;
     }

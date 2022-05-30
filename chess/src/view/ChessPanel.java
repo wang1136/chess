@@ -7,7 +7,7 @@ import java.io.File;
 public class ChessPanel extends JPanel {
     @Override
     public void paint(Graphics a){
-        String BackgroundPath = "images" + File.separator + "背景.png";
+        String BackgroundPath = "./chess/images/背景.png";
         Image ImgBackground = Toolkit.getDefaultToolkit().getImage(BackgroundPath);
         a.drawImage(ImgBackground,0,0,this);
     }
